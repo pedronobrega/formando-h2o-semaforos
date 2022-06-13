@@ -18,12 +18,12 @@ void* H(){
     pthread_mutex_unlock(&criticalRegionMutex);
     if(HWaiting>=2 && OWaiting >=1){
         formH2O(1);
-        printf("H usado\n");
+        printf("Duas molecuas de H usado\n");
         pthread_mutex_unlock(&threadMutex);
     } else {
         pthread_mutex_unlock(&threadMutex);
         sem_wait(&HSem);
-        printf("H usado\n");
+        printf("Uma molecula de H usado\n");
     }
     pthread_exit("");
 
@@ -36,12 +36,12 @@ void* O(){
     pthread_mutex_unlock(&criticalRegionMutex);
     if(HWaiting>=2 && OWaiting >=1){
         formH2O(0);
-        printf("O usado\n");
+        printf("Uma molecula de O usado\n");
         pthread_mutex_unlock(&threadMutex);
     } else {
         pthread_mutex_unlock(&threadMutex);
         sem_wait(&OSem);
-        printf("O usado\n");
+        printf("Uma molecula de O usado\n");
     }
     pthread_exit("");
 }
@@ -49,8 +49,12 @@ void* O(){
 void formH2O(int isH){
     pthread_mutex_lock(&criticalRegionMutex);
     printf("Formando H2O...\n");
-    OWaiting-=1;
-    HWaiting-=2;
+
+    OWaiting--;
+
+    HWaiting--;
+    HWaiting--;
+
     pthread_mutex_unlock(&criticalRegionMutex);
     sem_post(&HSem);
     if(isH>0){
