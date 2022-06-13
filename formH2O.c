@@ -69,7 +69,7 @@ int main(int argc, char **argv){
     pthread_mutex_init(&threadMutex, NULL);
     sem_init(&HSem, 0, 0);
     sem_init(&OSem, 0, 0);
-    srand((unsigned)time(NULL));
+
     int numberOfMolecules = 100;
     pthread_t molecules[numberOfMolecules];
     for(int i=0;i<numberOfMolecules; i++){
